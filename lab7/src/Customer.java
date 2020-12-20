@@ -24,7 +24,7 @@ public class Customer extends AbstractCustomer {
     }
 
     public String printCustomerAccount() {
-        return getAccount().printAccount()
+        return getAccount().printAccount();
     }
 
     public String getSurname() {

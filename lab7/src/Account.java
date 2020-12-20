@@ -38,18 +38,16 @@ public class Account {
     }
 
     public String printAccount() {
-        return "Account information:\nIBAN: " + getIban() + "\nMoney: "
-                + getMoney().getValue() + "\nAccount type: " + getType();
+        return "Account: IBAN: " + getIban() + ", Money: "
+                + getMoney().getValue() + ", Account type: " + getType();
     }
 
     public String printDaysOverdrawnDescription() {
-        return "Account information:\nIBAN: " + getIban() + "\nDays Overdrawn: "
-                + getDaysOverdrawn();
+        return "Account: IBAN: " + getIban() + ", Days Overdrawn: " + getDaysOverdrawn();
     }
 
     public String printMoneyDescription() {
-        return "Account information:\nIBAN: " + getIban() + "\nMoney: "
-                + getMoney().getValue();
+        return "Account: IBAN: " + getIban() + ", Money: " + getMoney().getValue();
     }
 
     public String getType() {
@@ -71,6 +69,7 @@ public class Account {
     public Money getMoney() {
         return money;
     }
+
     public void setMoney(Money money) {
         this.money = money;
     }

@@ -1,11 +1,8 @@
-public class CompanyCustomer {
+public class CompanyCustomer extends AbstractCustomer {
     private double companyOverdraftDiscount;
 
     public CompanyCustomer(String name, String email, Account account, double companyOverdraftDiscount) {
-        super(name,
-                email,
-                account,
-                CustomerType.COMPANY);
+        super(name, email, account, CustomerType.COMPANY);
         this.companyOverdraftDiscount = companyOverdraftDiscount;
     }
 
