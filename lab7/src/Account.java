@@ -5,9 +5,9 @@ public class Account {
     private AbstractCustomer customer;
     private boolean premium;
 
-    public Account(AccountType type, int daysOverdrawn) {
+    public Account(boolean premium, int daysOverdrawn) {
         super();
-        this.type = type;
+        this.premium = premium;
         this.daysOverdrawn = daysOverdrawn;
     }
 
@@ -20,7 +20,7 @@ public class Account {
     }
 
     private double overdraftCharge() {
-        if (type.isPremium()) {
+        if (premium) {
             double result = 10;
             if (getDaysOverdrawn() > 7)
                 result += (getDaysOverdrawn() - 7) * 1.0;
@@ -30,13 +30,31 @@ public class Account {
     }
 
     public double overdraftFee() {
-        if (type.isPremium()) {
+        if (premium) {
             return 0.10;
         } else {
             return 0.20;
         }
     }
 
+    public String printAccount() {
+        return "Account information:\nIBAN: " + getIban() + "\nMoney: "
+                + getMoney().getValue() + "\nAccount type: " + getType();
+    }
+
+    public String printDaysOverdrawnDescription() {
+        return "Account information:\nIBAN: " + getIban() + "\nDays Overdrawn: "
+                + getDaysOverdrawn();
+    }
+
+    public String printMoneyDescription() {
+        return "Account information:\nIBAN: " + getIban() + "\nMoney: "
+                + getMoney().getValue();
+    }
+
+    public String getType() {
+        return premium ? "premium" : "normal";
+    }
 
     public int getDaysOverdrawn() {
         return daysOverdrawn;
@@ -50,35 +68,30 @@ public class Account {
         this.iban = iban;
     }
 
-    public void setMoney(double money) {
+    public Money getMoney() {
+        return money;
+    }
+    public void setMoney(Money money) {
         this.money = money;
     }
 
-    public double getMoney() {
-        return money;
-    }
-
-    public Customer getCustomer() {
+    public AbstractCustomer getCustomer() {
         return customer;
     }
 
-    public void setCustomer(Customer customer) {
+    public void setCustomer(AbstractCustomer customer) {
         this.customer = customer;
     }
 
-    public AccountType getType() {
-        return type;
+    public boolean isPremium() {
+        return premium;
+    }
+
+    public void setPremium(boolean premium) {
+        this.premium = premium;
     }
 
     public String printCustomer() {
         return customer.getName() + " " + customer.getEmail();
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
     }
 }
