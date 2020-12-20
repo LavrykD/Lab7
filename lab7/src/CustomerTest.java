@@ -9,64 +9,64 @@ public class CustomerTest {
     public void testWithdrawPersonWithNormalAccount() throws Exception {
         Account account = getAccountByTypeAndMoney(false, 34.0);
         Customer customer = getPersonCustomer(account);
-        customer.withdraw(10, "EUR");
-        assertThat(account.getMoney(), is(24.0));
+        CustomerOperations.withdraw(customer, 10, "EUR");
+        assertThat(account.getMoney().getValue(), is(24.0));
     }
 
     @Test
     public void testWithdrawPersonWithNormalAccountAndOverdraft() throws Exception {
         Account account = getAccountByTypeAndMoney(false, -10.0);
         Customer customer = getPersonCustomer(account);
-        customer.withdraw(10, "EUR");
-        assertThat(account.getMoney(), is(-22.0));
+        CustomerOperations.withdraw(customer, 10, "EUR");
+        assertThat(account.getMoney().getValue(), is(-22.0));
     }
 
     @Test
     public void testWithdrawPersonWithPremiumAccount() throws Exception {
         Account account = getAccountByTypeAndMoney(true, 34.0);
         Customer customer = getPersonCustomer(account);
-        customer.withdraw(10, "EUR");
-        assertThat(account.getMoney(), is(24.0));
+        CustomerOperations.withdraw(customer, 10, "EUR");
+        assertThat(account.getMoney().getValue(), is(24.0));
     }
 
     @Test
     public void testWithdrawPersonWithPremiumAccountAndOverdraft() throws Exception {
         Account account = getAccountByTypeAndMoney(true, -10.0);
         Customer customer = getPersonCustomer(account);
-        customer.withdraw(10, "EUR");
-        assertThat(account.getMoney(), is(-21.0));
+        CustomerOperations.withdraw(customer, 10, "EUR");
+        assertThat(account.getMoney().getValue(), is(-21.0));
     }
 
     @Test
     public void testWithdrawCompanyWithNormalAccount() throws Exception {
         Account account = getAccountByTypeAndMoney(false, 34);
-        Customer customer = getCompanyCustomer(account);
-        customer.withdraw(10, "EUR");
-        assertThat(account.getMoney(), is(24.0));
+        CompanyCustomer customer = getCompanyCustomer(account);
+        CustomerOperations.withdraw(customer, 10, "EUR");
+        assertThat(account.getMoney().getValue(), is(24.0));
     }
 
     @Test
     public void testWithdrawCompanyWithNormalAccountAndOverdraft() throws Exception {
         Account account = getAccountByTypeAndMoney(false, -10);
-        Customer customer = getCompanyCustomer(account);
-        customer.withdraw(10, "EUR");
-        assertThat(account.getMoney(), is(-21.0));
+        CompanyCustomer customer = getCompanyCustomer(account);
+        CustomerOperations.withdraw(customer, 10, "EUR");
+        assertThat(account.getMoney().getValue(), is(-21.0));
     }
 
     @Test
     public void testWithdrawCompanyWithPremiumAccount() throws Exception {
         Account account = getAccountByTypeAndMoney(true, 34);
-        Customer customer = getCompanyCustomer(account);
-        customer.withdraw(10, "EUR");
-        assertThat(account.getMoney(), is(24.0));
+        CompanyCustomer customer = getCompanyCustomer(account);
+        CustomerOperations.withdraw(customer, 10, "EUR");
+        assertThat(account.getMoney().getValue(), is(24.0));
     }
 
     @Test
     public void testWithdrawCompanyWithPremiumAccountAndOverdraft() throws Exception {
         Account account = getAccountByTypeAndMoney(true, -10);
-        Customer customer = getCompanyCustomer(account);
-        customer.withdraw(10, "EUR");
-        assertThat(account.getMoney(), is(-20.25));
+        CompanyCustomer customer = getCompanyCustomer(account);
+        CustomerOperations.withdraw(customer, 10, "EUR");
+        assertThat(account.getMoney().getValue(), is(-20.25));
     }
 
     @Test
@@ -94,33 +94,29 @@ public class CustomerTest {
     }
 
     private Customer getPersonWithAccount(boolean premium) {
-        AccountType accountType = new AccountType(premium);
-        Account account = new Account(accountType, 9);
+        Account account = new Account(premium, 9);
         Customer customer = getPersonCustomer(account);
         account.setIban("RO023INGB434321431241");
-        account.setMoney(34.0);
-        account.setCurrency("EUR");
+        account.setMoney(new Money(34.0, "EUR"));
         return customer;
     }
 
     private Account getAccountByTypeAndMoney(boolean premium, double money) {
-        AccountType accountType = new AccountType(premium);
-        Account account = new Account(accountType, 9);
+        Account account = new Account(premium, 9);
         account.setIban("RO023INGB434321431241");
-        account.setMoney(money);
-        account.setCurrency("EUR");
+        account.setMoney(new Money(money, "EUR"));
         return account;
     }
 
     private Customer getPersonCustomer(Account account) {
-        Customer customer = new Customer("danix", "dan", "dan@mail.com", CustomerType.PERSON, account);
+        Customer customer = new Customer("danix", "dan", "dan@mail.com", account);
         account.setCustomer(customer);
         return customer;
     }
 
-    private Customer getCompanyCustomer(Account account) {
-        Customer customer = new Customer("company", "company@mail.com", account, 0.50);
-        account.setCustomer(customer);
-        return customer;
+    private CompanyCustomer getCompanyCustomer(Account account) {
+        CompanyCustomer company = new CompanyCustomer("company", "company@mail.com", account, 0.50);
+        account.setCustomer(company);
+        return company;
     }
 }
